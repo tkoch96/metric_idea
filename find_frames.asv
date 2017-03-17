@@ -1,17 +1,11 @@
 clc;clear all;close all;
 format longG;
 
-% "Hyperparams"
-deviation = .05; %percentage of total value of decision rule, arbitrary
-p = .1; %arbitary number, maybe change to zero
-
-%one would normally read these from some file
-dataset = [3 4 5 6;9 2 4 1; 23 4 2 1; 52 2 5 7; 2 5 6 1; 2 5 2 6];%the dataset
-alphas = [1 -1 2 5 5 -8]; %the output from the svm
-labels = [1 -1 1 -1 1 1]; 
-
 frames = zeros(length(dataset));
-
+dataset = [3 4 5 6;9 2 4 1; 23 4 2 1; 52 2 5 7; 2 5 6 1; 2 5 2 6];%the dataset
+alphas = [1 -1 2 5 5 -8];
+labels = [1 -1 1 -1 1 1];
+deviation = .05; %percentage of total value of decision rule, arbitrary
 for j = 1:length(dataset) %for each x_star
 	x_star = dataset(j,:);
     s = zeros(length(dataset),2);
@@ -28,12 +22,12 @@ for j = 1:length(dataset) %for each x_star
 	frames(j,:) = [s(:,1)' zeros(1,6-length(s(:,1)))]; %indices of vector which are the most important
 end
 
-counts = histcounts(frames(:)); %how many times was each thing important over all vectors
+counts = histcounts(frames(:)); %how many times was each thing important ove
 counts = counts(2:end); %dont include zero
 
 
 %get rid of the vectors that aren't important to this decision rule
-
+p = .1; %arbitary number, maybe change to zero
 frames = [];
 for i = 1:length(dataset)
    num_important = counts(i);
@@ -43,4 +37,4 @@ for i = 1:length(dataset)
 end
 
 
-csvwrite('output_frames.csv',frames)
+csvwrite(frames,'output_frames.csv')
